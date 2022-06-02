@@ -11,82 +11,82 @@ import { useState } from "react";
 // 6. 3, 4번의 결과를 가지고 누가 이겼는지 승패 결정한다
 // 7 승패에 따라 박스테두리 색이 바뀐다(이기면:초록 , 지면:빨강 , 무승부:블랙)
 
-// 사진과 이름을 저장할 수 있는 객체 생성
+// 사진과 이름을 저장할 수 있는 객체 아이템 생성
+// 유저가 클릭하면 해당 객체의 아이템을 꺼내온다.
 const choices = {
   rock: {
     name: "Rock",
-    img: "https://nationaltoday.com/wp-content/uploads/2021/08/National-Pet-Rock-Day-640x514.jpg",
+    img: "https://previews.123rf.com/images/lemonadeserenade/lemonadeserenade1606/lemonadeserenade160600120/60264283-kraft-und-st%C3%A4rke-eine-hand-gezeichnete-vektor-illustration-eines-erhobener-faust-isoliert-auf-einem-.jpg",
   },
   scissors: {
     name: "Scissors",
-    img: "https://www.creativefabrica.com/wp-content/uploads/2020/02/06/1580976980/Scissors-black-580x386.jpg",
+    img: "https://is2-ssl.mzstatic.com/image/thumb/Purple/v4/49/6f/5e/496f5ecb-3d3f-0801-dff3-080b0ec9df0b/source/512x512bb.jpg",
   },
   paper: {
     name: "Paper",
-    img: "https://m.media-amazon.com/images/I/61OorFhm6SL.jpg",
+    img: "https://blog.kakaocdn.net/dn/cD4Lwz/btqXOaxai6P/eiDV58H4USpQLNOE1NT7L1/img.png",
   },
 };
 
 function App() {
-  // ui에 그리려기 위해서는 state를 만들어야 한다.
-  const [userSelect, setUserSelect] = useState(null);
-  const [computerSelect, setComputerSelect] = useState(null);
-  // 승패에 값을 보여주는 state
-  const [result, setResult] = useState("");
+  // 유저가 아이템을 선택하는 로직 버튼을 클릭하면? onClick play
+
   const play = (userChoice) => {
+    console.log("t선택?", userChoice);
     setUserSelect(choices[userChoice]);
-    // 컴퓨터가 랜덤으로 값을 선택해주는 함수
+    // 유자가 선택할때 컴퓨터도 랜덤하게 선택하는 함수
     let ComputerChoice = randomChoice();
-    setComputerSelect(ComputerChoice);
-    // 승패를 판단 해주는 함수 judgement(유저가 선택값 , 컴터가 선택값)
+    SetComputerSelect(ComputerChoice);
+    // 판단하는 함수 한테 ->유저가 선택한 값 , 컴터가 선택한값 전달
     setResult(judgement(choices[userChoice], ComputerChoice));
   };
   const judgement = (user, computer) => {
-    console.log("user??", user, "com?", computer);
-    // user === computer 무승부 tie
-    // user === rock , computer === scissor 유저가 이김
-    // user === rock , computer === parer 유저가 짐
-    // user === scissor , computer === paper 유저가 이김
-    // user === scissor , computer === rock 유저가 짐
-    // user === paper , computer === rock 유저가 이김
-    // user === paper , computer === scissor 유저가 짐
-
     if (user.name === computer.name) {
       return "tie";
     } else if (user.name === "Rock")
-      return computer.name === "Scissors" ? "Win" : "Loss";
+      return computer.name === "Scissors" ? "win" : "lose";
     else if (user.name === "Scissors")
-      return computer.name === "Paper" ? "Win" : "Loss";
+      return computer.name === "Paper" ? "win" : "lose";
     else if (user.name === "Paper")
-      return computer.name === "Rock" ? "Win" : "Loss";
+      return computer.name === "Rock" ? "win" : "lose";
   };
 
   const randomChoice = () => {
-    // 랜덤함수가 어떻게 choices 랑 연결이 될까? 아이템과 숫자를 연결할때는 배열을 이용한다.
-    let itemArray = Object.keys(choices); // keys는 배열의 각 인데스를 키값으로 가지는 새로운 배열을 반환한다.
-    //  Object.keys : 객체의 키값만 뽑아서 배열 함수로 만들어준다.
-    console.log("itemAarrt??", itemArray);
-
-    let randomItem = Math.floor(Math.random() * itemArray.length); // math.floor() 함수를 이용해 부여된 소수자리 랜덤숫자 앞자리만 가지고 온다
-    console.log("randomValue", randomItem);
+    // 랜덤번호와 choice 를 연결해주는 배열Keys 함수를 이용 한다.
+    // Object.keys(choices)를 배열화 시켜준다.
+    // keys : 객체의 키값만 뽑아서 배열로 만들어주는 함수.
+    let itemArray = Object.keys(choices);
+    let randomItem = Math.floor(Math.random() * itemArray.length);
     let final = itemArray[randomItem];
-    console.log("final??", final);
+    console.log("fin???", final);
     return choices[final];
   };
 
+  // 가위바위보 변경 UI를 그려주기 위해서는 state 사용
+  const [userSelect, setUserSelect] = useState(null);
+  // 컴퓨터 초이스 start
+  const [ComputerSelect, SetComputerSelect] = useState(null);
+  // 승패를 보여주는 state
+  const [result, setResult] = useState("");
+
   return (
-    <div className="container">
+    <div>
       <div className="main">
-        <Box title="You" item={userSelect} result={result} />
-        <Box title="Computer" item={computerSelect} result={result} />
+        <Box title="User" item={userSelect} result={result} />
+        <Box title="Computer" item={ComputerSelect} result={result} />
       </div>
-      {/* 무엇을 선택했는지 알려줘야 한다 가위?바위 보? 매개변수를 넣어준다 */}
       <div className="main-button">
-        {/* {play() 는 함수} */}
-        {/* 리액트에서 함수는 바로 실행이 되므로 콜백함수(() =>)를 이용해서 막아준다. */}
-        <button onClick={() => play("scissors")}>가위</button>
-        <button onClick={() => play("rock")}>바위</button>
-        <button onClick={() => play("paper")}>보</button>
+        {/* play() 함수 실행시 유저가 무엇을 선택 했는지 알아야 하므로 매개변수를 받을 인수를 만들어준다. */}
+        {/* 리액트는 play() 함수 실행시킬시에 ui를 바로 실행 해줘 버린다 그래서 함수를 통쨰로 넣지말고 콜백함수처럼 넣어준다. */}
+        <button onClick={() => play("scissors")}>
+          <i class="fa-solid fa-hand-scissors"></i>
+        </button>
+        <button onClick={() => play("rock")}>
+          <i class="fa-solid fa-hand-back-fist"></i>
+        </button>
+        <button onClick={() => play("paper")}>
+          <i class="fa-solid fa-hand"></i>
+        </button>
       </div>
     </div>
   );

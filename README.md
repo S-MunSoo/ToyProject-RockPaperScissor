@@ -12,7 +12,4 @@
 
 #### 사용기술스택
 
-- HTML
-- CSS
-- JavaScript
-- React
+- React 라이브러리
