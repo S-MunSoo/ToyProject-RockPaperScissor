@@ -1,5 +1,7 @@
 ### React 첫 토이 프로젝트 가위바위보 게임
 
+https://user-images.githubusercontent.com/102017296/171660948-aba6f143-2267-447f-992d-cbd8696e9606.mov
+
 #### 구현 로드맵
 
 - 1. 유저는 박스 두개를 볼 수 있다.
